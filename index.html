@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Movie App (TMDB)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="app-frame">
+      <!-- Главный экран -->
+      <section class="screen screen--active screen--home" id="screen-home">
+        <header class="screen-header"></header>
+
+        <section class="screen-body screen-body--home">
+          <article class="hero" id="hero-card">
+            <img
+              src=""
+              alt="Постер фильма"
+              class="hero-poster"
+              id="hero-poster"
+              loading="lazy"
+            />
+            <div class="hero-gradient"></div>
+            <div class="hero-actions">
+              <button
+                type="button"
+                class="hero-action"
+                id="hero-refresh-btn"
+                aria-label="Сменить фильм"
+              >
+                <span class="icon icon-rotate"></span>
+              </button>
+              <button
+                type="button"
+                class="hero-action hero-action--watched"
+                id="hero-watch-btn"
+                aria-label="Смотрел"
+              >
+                <span class="icon icon-eye"></span>
+              </button>
+              <button
+                type="button"
+                class="hero-action hero-action--like"
+                id="hero-like-btn"
+                aria-label="Понравилось"
+              >
+                <span class="icon icon-heart"></span>
+              </button>
+            </div>
+            <div class="hero-title-wrap">
+              <h2 class="hero-title hero-title--main" id="hero-title">
+                Загрузка...
+              </h2>
+              <div class="hero-rating" id="hero-rating">
+                <span class="hero-rating-star">★</span>
+                <span class="hero-rating-value">…</span>
+                <span class="hero-rating-label">TMDB</span>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <!-- Поиск -->
+      <section class="screen" id="screen-search">
+        <header class="screen-header">
+          <h1 class="screen-title">Поиск</h1>
+        </header>
+
+        <section class="screen-body screen-body--search">
+          <div class="search-bar">
+            <span class="icon icon-search"></span>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Поиск фильмов..."
+              autocomplete="off"
+            />
+          </div>
+          <p class="search-empty" id="search-empty">
+            Введите название фильма, чтобы начать поиск
+          </p>
+            <div class="search-results" id="search-results"></div>
+        </section>
+      </section>
+
+      <!-- Профиль -->
+      <section class="screen" id="screen-profile">
+        <header class="screen-header screen-header--with-back">
+          <button
+            class="back-btn"
+            type="button"
+            id="profile-back-btn"
+            aria-label="Назад"
+          >
+            ←
+          </button>
+          <h1 class="screen-title">Профиль</h1>
+        </header>
+
+        <section class="screen-body screen-body--profile">
+          <div class="profile-card" id="profile-card">
+            <div class="profile-avatar">
+              <img
+                src=""
+                alt="Фото профиля"
+                id="profile-avatar-img"
+              />
+            </div>
+            <div class="profile-info">
+              <div class="profile-name" id="profile-name">Гость</div>
+              <div class="profile-email is-hidden" id="profile-email">guest@example.com</div>
+              <div class="profile-stats is-hidden" id="profile-stats"></div>
+            </div>
+          </div>
+
+          <form class="profile-form" id="profile-form">
+            <label class="profile-field">
+              <span>Имя</span>
+              <input type="text" id="profile-input-name" placeholder="Ваше имя" />
+            </label>
+            <label class="profile-field">
+              <span>Email</span>
+              <input type="email" id="profile-input-email" placeholder="you@example.com" />
+            </label>
+            <label class="profile-field">
+              <span>Пароль</span>
+              <input
+                type="password"
+                id="profile-input-password"
+                placeholder="Минимум 8 символов"
+                autocomplete="new-password"
+              />
+            </label>
+            <label class="profile-field">
+              <span>Подтверждение пароля</span>
+              <input
+                type="password"
+                id="profile-input-password-confirm"
+                placeholder="Повторите пароль"
+                autocomplete="new-password"
+              />
+            </label>
+            <p class="profile-feedback" id="profile-feedback" aria-live="polite"></p>
+            <button type="submit" class="primary-btn profile-save-btn">Сохранить профиль</button>
+          </form>
+
+          <button
+            type="button"
+            class="secondary-btn profile-logout-btn"
+            id="profile-logout-btn"
+            hidden
+          >
+            Выйти из профиля
+          </button>
+
+          <section class="profile-section is-hidden" id="watched-section">
+            <div class="profile-section-header">
+              <h2 class="profile-section-title">Просмотрено</h2>
+              <button
+                type="button"
+                class="profile-section-link"
+                id="watched-see-all"
+              >
+                Смотреть все
+              </button>
+            </div>
+            <div class="horizontal-list" id="watched-list"></div>
+          </section>
+
+          <section class="profile-section is-hidden" id="liked-section">
+            <div class="profile-section-header">
+              <h2 class="profile-section-title">Понравилось</h2>
+            </div>
+            <div class="horizontal-list" id="liked-list"></div>
+          </section>
+        </section>
+      </section>
+
+      <!-- Детали -->
+      <section class="screen" id="screen-detail">
+        <header class="screen-header screen-header--with-back">
+          <button
+            class="back-btn"
+            type="button"
+            id="detail-back-btn"
+            aria-label="Назад"
+          >
+            ←
+          </button>
+          <h1 class="screen-title" id="detail-header-title">
+            Карточка фильма
+          </h1>
+        </header>
+
+        <section class="screen-body screen-body--detail">
+          <div class="detail-poster-wrapper">
+            <img
+              src=""
+              alt="Постер фильма"
+              class="detail-poster"
+              id="detail-poster"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="detail-title-block">
+            <h2 class="detail-title" id="detail-title">Загрузка...</h2>
+            <p class="detail-meta" id="detail-meta"></p>
+            <div class="detail-rating-row">
+              <span class="detail-rating-star">★</span>
+              <span class="detail-rating-value" id="detail-rating">…</span>
+              <span class="detail-rating-label">TMDB</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="primary-btn"
+            id="detail-watch-btn"
+          >
+            Смотреть
+          </button>
+
+          <section class="detail-description">
+            <h3 class="detail-description-title">Описание</h3>
+            <p class="detail-description-text" id="detail-overview">
+              Загрузка описания...
+            </p>
+          </section>
+        </section>
+      </section>
+
+      <!-- Навигация -->
+      <nav class="tabbar" aria-label="Основная навигация">
+        <button
+          type="button"
+          class="tabbar-item tabbar-item--active"
+          data-target="home"
+          aria-label="Главная"
+        >
+          <span class="icon icon-home"></span>
+        </button>
+        <button
+          type="button"
+          class="tabbar-item"
+          data-target="search"
+          aria-label="Поиск"
+        >
+          <span class="icon icon-search"></span>
+        </button>
+        <button
+          type="button"
+          class="tabbar-item"
+          data-target="profile"
+          aria-label="Профиль"
+        >
+          <span class="icon icon-user"></span>
+        </button>
+      </nav>
+
+      <div class="home-indicator"></div>
+
+      <!-- Модал: все просмотренные -->
+      <div class="modal" id="watched-modal" hidden>
+        <div class="modal-backdrop" id="watched-modal-backdrop"></div>
+        <div class="modal-card">
+          <header class="modal-header">
+            <h2 class="modal-title">Все просмотренные</h2>
+            <button
+              type="button"
+              class="modal-close"
+              id="watched-modal-close"
+              aria-label="Закрыть"
+            >
+              ✕
+            </button>
+          </header>
+          <div class="modal-body" id="watched-modal-list"></div>
+        </div>
+      </div>
+
+      <!-- Модал: трейлер -->
+      <div class="modal" id="trailer-modal" hidden>
+        <div class="modal-backdrop" id="trailer-modal-backdrop"></div>
+        <div class="modal-card modal-card--wide">
+          <header class="modal-header">
+            <h2 class="modal-title" id="trailer-modal-title">Трейлер</h2>
+            <button
+              type="button"
+              class="modal-close"
+              id="trailer-modal-close"
+              aria-label="Закрыть"
+            >
+              ✕
+            </button>
+          </header>
+          <div class="modal-body modal-body--video">
+            <div class="video-frame">
+              <iframe
+                id="trailer-iframe"
+                src=""
+                title="Трейлер"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
