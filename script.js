@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const TMDB_IMG_BASE = "https://image.tmdb.org/t/p";
   const FALLBACK_POSTER =
     "https://image.tmdb.org/t/p/w780/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg";
+  const TELEGRAM_BOT_NAME = window.TELEGRAM_BOT_NAME || "YOUR_TELEGRAM_BOT_NAME";
+  const TELEGRAM_AUTH_URL = window.TELEGRAM_AUTH_URL || "/api/telegram-auth";
 
   const STORAGE_KEYS = {
     liked: "movieapp_liked",
@@ -47,7 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
       email: "guest@example.com",
       avatar: "https://i.pravatar.cc/150?img=12",
       loggedIn: false,
-      onboarded: false
+      onboarded: false,
+      telegramUser: null
     },
     apiKey: DEFAULT_TMDB_API_KEY
   };
@@ -478,6 +481,74 @@ document.addEventListener("DOMContentLoaded", () => {
     item.addEventListener("click", () => openDetail(movie.id));
 
     return item;
+  }
+
+  /* --------- Telegram login --------- */
+
+  function setupTelegramLogin() {
+    updateTelegramLoginBlock(Boolean(state.profile.loggedIn));
+  }
+
+  function updateTelegramLoginBlock(loggedIn) {
+    const block = document.getElementById("telegram-login-block");
+    const widget = document.getElementById("telegram-login-widget");
+    if (!block || !widget) return;
+
+    const botNameValid = TELEGRAM_BOT_NAME && TELEGRAM_BOT_NAME !== "YOUR_TELEGRAM_BOT_NAME";
+    block.classList.toggle("is-hidden", loggedIn || !botNameValid);
+    if (loggedIn || !botNameValid) {
+      widget.innerHTML = "";
+      widget.removeAttribute("data-loaded");
+      return;
+    }
+
+    if (widget.dataset.loaded === "true") return;
+
+    window.onTelegramAuth = handleTelegramAuth;
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://telegram.org/js/telegram-widget.js?22";
+    script.setAttribute("data-telegram-login", TELEGRAM_BOT_NAME);
+    script.setAttribute("data-size", "large");
+    script.setAttribute("data-userpic", "true");
+    script.setAttribute("data-request-access", "write");
+    script.setAttribute("data-onauth", "onTelegramAuth(user)");
+    widget.innerHTML = "";
+    widget.appendChild(script);
+    widget.dataset.loaded = "true";
+  }
+
+  async function handleTelegramAuth(user) {
+    if (!user) return;
+    try {
+      const res = await fetch(TELEGRAM_AUTH_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
+      if (!res.ok) throw new Error("telegram auth failed");
+
+      const name =
+        [user.first_name, user.last_name].filter(Boolean).join(" ") ||
+        user.username ||
+        "Гость";
+      const email = user.username ? `${user.username}@t.me` : state.profile.email;
+
+      state.profile = {
+        ...state.profile,
+        name,
+        email,
+        avatar: user.photo_url || state.profile.avatar,
+        loggedIn: true,
+        onboarded: true,
+        telegramUser: { id: user.id, username: user.username || "" }
+      };
+      persistProfile();
+      renderProfile();
+    } catch (err) {
+      console.error(err);
+      alert("Не удалось подтвердить Telegram вход. Попробуйте позже.");
+    }
   }
 
   function toggleLike(id) {
@@ -997,7 +1068,8 @@ document.addEventListener("DOMContentLoaded", () => {
           email: "guest@example.com",
           avatar: "https://i.pravatar.cc/150?img=12",
           loggedIn: false,
-          onboarded: state.profile.onboarded
+          onboarded: state.profile.onboarded,
+          telegramUser: null
         };
         persistProfile();
         renderProfile();
@@ -1023,6 +1095,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (statsEl) {
       statsEl.classList.toggle("is-hidden", !loggedIn);
     }
+    updateTelegramLoginBlock(loggedIn);
   }
 
   /* --------- Трейлер --------- */
@@ -1086,6 +1159,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupTabs();
   setupBackButtons();
   setupProfileSeeAll();
+  setupTelegramLogin();
   setupSearch();
   setupHeroGestures();
   setupHeroParallax();

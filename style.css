@@ -572,6 +572,26 @@ body {
   color: #aaa;
 }
 
+.profile-telegram {
+  background: #0b0b0b;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+.profile-telegram-title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.profile-telegram-note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #888;
+}
+
 .profile-form {
   display: grid;
   gap: 10px;
