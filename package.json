@@ -1,0 +1,24 @@
+{
+  "name": "film",
+  "version": "1.0.0",
+  "description": "Одностраничное веб‑приложение для просмотра популярного кино и трейлеров на данных TMDB: главный герой‑блок, поиск, лайки/просмотры и профиль с локальным хранением.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruopp93-dot/filmtoken.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruopp93-dot/filmtoken/issues"
+  },
+  "homepage": "https://github.com/ruopp93-dot/filmtoken#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  }
+}

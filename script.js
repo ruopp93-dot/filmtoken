@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const TMDB_IMG_BASE = "https://image.tmdb.org/t/p";
   const FALLBACK_POSTER =
     "https://image.tmdb.org/t/p/w780/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg";
-  const TELEGRAM_BOT_NAME = window.TELEGRAM_BOT_NAME || "YOUR_TELEGRAM_BOT_NAME";
-  const TELEGRAM_AUTH_URL = window.TELEGRAM_AUTH_URL || "/api/telegram-auth";
+  const TELEGRAM_BOT_NAME = window.TELEGRAM_BOT_NAME || "PopcornPickerBot";
+  const TELEGRAM_AUTH_URL = window.TELEGRAM_AUTH_URL || "https://t.me/PopcornPickerBot";
 
   const STORAGE_KEYS = {
     liked: "movieapp_liked",
