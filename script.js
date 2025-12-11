@@ -1,5 +1,5 @@
 ﻿// ВАЖНО: задайте TMDB ключ в localStorage (movieapp_tmdb_key) или измените DEFAULT_TMDB_API_KEY
-const DEFAULT_TMDB_API_KEY = "sk-34450c1dcc43442b9d9b9d76e553327b";
+const DEFAULT_TMDB_API_KEY = "64caf85ec2b1fe28c66065dd95b5720c";
 
 // Простая утилита debounce
 function debounce(fn, delay) {
