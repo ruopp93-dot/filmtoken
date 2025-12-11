@@ -28,8 +28,10 @@ body {
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
     system-ui, sans-serif;
   color: #fff;
-  background-size: 180% 180%;
-  animation: bg-pan 28s ease-in-out infinite;
+  /* Reduce the amplitude and speed of the background animation to improve
+     performance on low‑powered devices. */
+  background-size: 120% 120%;
+  animation: bg-pan 60s linear infinite;
 }
 
 .app-shell {
@@ -53,7 +55,8 @@ body {
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  filter: blur(70px);
+  /* Slightly reduce blur radius to improve performance */
+  filter: blur(50px);
   opacity: 0.7;
   z-index: 0;
   pointer-events: none;
@@ -63,14 +66,16 @@ body {
   background: radial-gradient(circle, rgba(255, 95, 109, 0.6), transparent 60%);
   top: -60px;
   left: -30px;
-  animation: orb-move 16s ease-in-out infinite;
+  /* Slow down the floating orb animation for smoother visuals */
+  animation: orb-move 32s ease-in-out infinite;
 }
 
 .app-frame::after {
   background: radial-gradient(circle, rgba(72, 169, 254, 0.5), transparent 55%);
   bottom: -80px;
   right: -40px;
-  animation: orb-move 18s ease-in-out infinite reverse;
+  /* Slow down the floating orb animation and reverse direction */
+  animation: orb-move 36s ease-in-out infinite reverse;
 }
 
 .app-frame,
@@ -99,7 +104,8 @@ body {
     transform 0.25s ease,
     filter 0.25s ease;
   background: transparent;
-  filter: blur(8px) saturate(0.65);
+  /* Reduce blur and saturation to lighten GPU usage */
+  filter: blur(4px) saturate(0.8);
 }
 
 .screen--active {
@@ -249,7 +255,8 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  backdrop-filter: blur(10px);
+  /* Reduce backdrop blur to improve performance */
+  backdrop-filter: blur(5px);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
   transition:
     transform 0.2s ease,
@@ -319,7 +326,8 @@ body {
   background: radial-gradient(circle at 20% 30%, rgba(255, 95, 109, 0.32), transparent 50%),
     radial-gradient(circle at 80% 60%, rgba(72, 169, 254, 0.25), transparent 50%),
     radial-gradient(circle at 60% 10%, rgba(154, 95, 245, 0.25), transparent 45%);
-  filter: blur(30px);
+  /* Reduce hero ambient blur for smoother performance */
+  filter: blur(20px);
   opacity: 0.7;
   animation: hero-ambient 16s ease-in-out infinite;
   z-index: 1;
@@ -714,6 +722,24 @@ body {
   color: #777;
 }
 
+/* Рекомендации на главном экране */
+.recommend-section {
+  padding: 18px;
+  margin-top: 12px;
+}
+
+.recommend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.recommend-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
 /* Маленькие карточки фильмов */
 
 .movie-card {
@@ -741,6 +767,34 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Remove button overlay on small movie cards */
+.movie-card {
+  position: relative;
+}
+
+.movie-card-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.movie-card-remove:hover {
+  background: rgba(255, 255, 255, 0.7);
+  color: #000;
+  transform: scale(1.1);
 }
 
 /* Детальный экран */
@@ -867,7 +921,8 @@ body {
   padding-inline: 14px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
+  /* Reduce backdrop blur on tabbar for smoother performance */
+  backdrop-filter: blur(6px);
   overflow: hidden;
 }
 
@@ -1024,7 +1079,8 @@ body {
   0% {
     opacity: 0;
     transform: translateX(28px) rotateY(-7deg) scale(0.98);
-    filter: blur(6px) saturate(0.7);
+  /* Soften the hover blur effect */
+  filter: blur(3px) saturate(0.85);
   }
   55% {
     opacity: 1;
@@ -1210,4 +1266,54 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+/* Intro overlay styles */
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  padding: 24px;
+  text-align: center;
+}
+
+.intro-overlay--visible {
+  display: flex;
+}
+
+.intro-overlay .intro-content {
+  max-width: 90%;
+}
+
+.intro-overlay h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.intro-overlay p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+}
+
+.intro-overlay button {
+  padding: 0.8rem 1.4rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: var(--accent-hot);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.intro-overlay button:hover {
+  background-color: var(--accent-cold);
 }
