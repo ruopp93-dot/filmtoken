@@ -60,6 +60,14 @@
               </div>
             </div>
           </article>
+
+          <!-- Рекомендации -->
+          <section class="recommend-section" id="recommend-section">
+            <div class="recommend-header">
+              <h2 class="recommend-title">Рекомендуем</h2>
+            </div>
+            <div class="horizontal-list" id="recommend-list"></div>
+          </section>
         </section>
       </section>
 
@@ -124,36 +132,11 @@
             </p>
           </div>
 
-          <form class="profile-form" id="profile-form">
-            <label class="profile-field">
-              <span>Имя</span>
-              <input type="text" id="profile-input-name" placeholder="Ваше имя" />
-            </label>
-            <label class="profile-field">
-              <span>Email</span>
-              <input type="email" id="profile-input-email" placeholder="you@example.com" />
-            </label>
-            <label class="profile-field">
-              <span>Пароль</span>
-              <input
-                type="password"
-                id="profile-input-password"
-                placeholder="Минимум 8 символов"
-                autocomplete="new-password"
-              />
-            </label>
-            <label class="profile-field">
-              <span>Подтверждение пароля</span>
-              <input
-                type="password"
-                id="profile-input-password-confirm"
-                placeholder="Повторите пароль"
-                autocomplete="new-password"
-              />
-            </label>
-            <p class="profile-feedback" id="profile-feedback" aria-live="polite"></p>
-            <button type="submit" class="primary-btn profile-save-btn">Сохранить профиль</button>
-          </form>
+          <!--
+            Форма профиля для ввода имени/email/пароля была удалена, потому что теперь
+            вход доступен только через Telegram. Все данные профиля приходят
+            из Telegram-бота, поэтому поле ввода больше не требуется.
+          -->
 
           <button
             type="button"
@@ -319,6 +302,21 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Инструкции для первого входа -->
+  <div class="intro-overlay" id="intro-overlay">
+    <div class="intro-content">
+      <h2>Добро пожаловать в FilmToken!</h2>
+      <p>
+        Это приложение позволяет искать и просматривать информацию о фильмах.
+        На главном экране отображается случайный популярный фильм — нажмите на
+        карточку, чтобы увидеть подробности и трейлер. В разделе «Поиск» вы можете
+        найти фильмы по названию. В разделе «Профиль» авторизуйтесь через
+        Telegram‑бота, чтобы сохранять список просмотренных и понравившихся фильмов.
+      </p>
+      <button id="intro-close-btn" type="button">Понятно</button>
     </div>
   </div>
 
